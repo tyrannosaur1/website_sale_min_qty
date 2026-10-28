@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     "name": "Minimum Order Quantity & Purchase Steps",
-    "version": "16.0.1.0.0",
+    "version": "17.0.1.0.0",
     "summary": "Sell by the box, the pallet or the quarter kilo: minimum order "
                "quantities and purchase steps on products and categories, "
                "enforced on the product page, in the cart and before checkout.",
