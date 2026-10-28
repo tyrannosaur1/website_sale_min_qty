@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import models
+from odoo.exceptions import ValidationError
 from odoo.tools import float_compare
 
 from .min_qty import format_quantity, is_on_grid, translate
@@ -58,9 +59,62 @@ class SaleOrder(models.Model):
             "%(product)s has a minimum order quantity of %(minimum)s: the "
             "quantity was changed from %(requested)s to %(target)s.") % numbers
 
+    def _min_qty_rule_text(self, product):
+        """``Product (at least 5, in multiples of 2)`` for the checkout error."""
+        minimum, step = product._min_qty_rules()
+        numbers = {
+            "product": product.display_name,
+            "minimum": format_quantity(minimum),
+            "step": format_quantity(step),
+        }
+        if minimum and step:
+            return translate(
+                self.env, "%(product)s (at least %(minimum)s, in multiples of "
+                "%(step)s)") % numbers
+        if minimum:
+            return translate(self.env, "%(product)s (at least %(minimum)s)") % numbers
+        return translate(self.env, "%(product)s (in multiples of %(step)s)") % numbers
+
+    def _min_qty_checkout_message(self, lines):
+        return translate(
+            self.env,
+            "The cart cannot go to the checkout yet: %(lines)s. Please change "
+            "the quantities in your cart.") % {
+                "lines": ", ".join(self._min_qty_rule_text(line.product_id)
+                                   for line in lines)}
+
+    # ------------------------------------------------------------------
+    # Hook used by the payment page
+    # ------------------------------------------------------------------
+    def _check_cart_is_ready_to_be_paid(self):
+        """Refuse the checkout while a line is below its rule.
+
+        Checked before the core's own conditions (a delivery method, an empty
+        cart) so the customer reads the reason that is actually theirs, and
+        because those conditions differ from one series to the next while this
+        one does not.
+        """
+        violated = self._min_qty_violated_lines()
+        if violated:
+            raise ValidationError(self._min_qty_checkout_message(violated))
+        return super()._check_cart_is_ready_to_be_paid()
+
     # ------------------------------------------------------------------
     # The single choke point every cart mutation goes through
     # ------------------------------------------------------------------
+    def _min_qty_option_ids(self, order_line):
+        """The option lines of *order_line*, under either of the two names.
+
+        ``option_line_ids`` was renamed ``linked_line_ids`` in 18.0; the field
+        is looked up rather than assumed so one release does not have to keep
+        a copy of this method.
+        """
+        for name in ("option_line_ids", "linked_line_ids"):
+            if name in order_line._fields:
+                return list(set(order_line[name].filtered(
+                    lambda line: line.order_id == order_line.order_id).ids))
+        return []
+
     def _cart_update(self, product_id, line_id=None, add_qty=0, set_qty=0, **kwargs):
         """Apply the product's minimum and step before the line is written.
 
@@ -134,7 +188,6 @@ class SaleOrder(models.Model):
         return {
             "line_id": order_line.id,
             "quantity": quantity,
-            "option_ids": list(set(order_line.option_line_ids.filtered(
-                lambda option: option.order_id == order_line.order_id).ids)),
+            "option_ids": self._min_qty_option_ids(order_line),
             "warning": warning or stock_warning,
         }
