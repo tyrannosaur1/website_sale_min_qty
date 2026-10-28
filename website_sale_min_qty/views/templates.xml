@@ -15,7 +15,7 @@
             <attribute name="data-min" remove="true"/>
             <attribute name="t-att-data-min">combination_info.get('min_qty_min') or 1</attribute>
             <attribute name="t-att-step">combination_info.get('min_qty_step') or 1</attribute>
-            <attribute name="t-att-value">combination_info.get('min_qty_default') or 1</attribute>
+            <attribute name="t-att-value">combination_info.get('min_qty_default_text') or 1</attribute>
             <attribute name="inputmode">decimal</attribute>
         </xpath>
         <xpath expr="//div[contains(@t-attf-class, 'css_quantity')]" position="after">

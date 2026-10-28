@@ -14,6 +14,9 @@
         "views/website_views.xml",
         "views/templates.xml",
     ],
+    "images": [
+        "static/description/screenshot_1.png",
+    ],
     "installable": True,
     "application": False,
     "price": 19.0,
