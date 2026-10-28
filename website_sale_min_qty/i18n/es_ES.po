@@ -1,0 +1,181 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* website_sale_min_qty
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0-20261015\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-28 08:59+0000\n"
+"PO-Revision-Date: 2026-10-28 08:59+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#. module: website_sale_min_qty
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_product_product__display_name
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_product_public_category__display_name
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_product_template__display_name
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_sale_order__display_name
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_website__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: website_sale_min_qty
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_product_product__id
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_product_public_category__id
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_product_template__id
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_sale_order__id
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_website__id
+msgid "ID"
+msgstr ""
+
+#. module: website_sale_min_qty
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_product_product__min_order_qty
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_product_public_category__min_order_qty
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_product_template__min_order_qty
+msgid "Minimum Order Quantity"
+msgstr "Cantidad mínima de pedido"
+
+#. module: website_sale_min_qty
+#: model:ir.module.module,shortdesc:base.module_website_sale_min_qty
+msgid "Minimum Order Quantity & Purchase Steps"
+msgstr "Cantidad mínima de pedido y múltiplos de compra"
+
+#. module: website_sale_min_qty
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_website__min_qty_message
+msgid "Minimum Quantity Message"
+msgstr "Mensaje de cantidad mínima"
+
+#. module: website_sale_min_qty
+#: model_terms:ir.ui.view,arch_db:website_sale_min_qty.view_website_form_min_qty
+msgid "Ordering Rules"
+msgstr "Reglas de pedido"
+
+#. module: website_sale_min_qty
+#: model:ir.model.fields,help:website_sale_min_qty.field_product_product__min_order_qty
+msgid ""
+"Overrides the product's minimum for this variant only. 0 uses the product's "
+"value, which itself falls back to the category."
+msgstr ""
+"Anula la cantidad mínima del producto solo para esta variante. 0 usa el "
+"valor del producto, que a su vez recurre a la categoría."
+
+#. module: website_sale_min_qty
+#: model:ir.model.fields,help:website_sale_min_qty.field_product_product__qty_step
+msgid ""
+"Overrides the product's quantity step for this variant only. 0 uses the "
+"product's value, which itself falls back to the category."
+msgstr ""
+"Anula el múltiplo de compra del producto solo para esta variante. 0 usa el "
+"valor del producto, que a su vez recurre a la categoría."
+
+#. module: website_sale_min_qty
+#: model:ir.model,name:website_sale_min_qty.model_product_template
+msgid "Product"
+msgstr "Producto"
+
+#. module: website_sale_min_qty
+#: model:ir.model,name:website_sale_min_qty.model_product_product
+msgid "Product Variant"
+msgstr "Variante de producto"
+
+#. module: website_sale_min_qty
+#: model:ir.model.fields,help:website_sale_min_qty.field_product_public_category__qty_step
+msgid ""
+"Quantities are sold in multiples of this number. 0 lets the parent category "
+"decide and, if no category sets one, means the quantity is free."
+msgstr ""
+"Las cantidades se venden en múltiplos de este número. 0 deja decidir a la "
+"categoría superior y, si ninguna categoría lo define, la cantidad es libre."
+
+#. module: website_sale_min_qty
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_product_product__qty_step
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_product_public_category__qty_step
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_product_template__qty_step
+msgid "Quantity Step"
+msgstr "Múltiplo de compra"
+
+#. module: website_sale_min_qty
+#: model:ir.model,name:website_sale_min_qty.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
+
+#. module: website_sale_min_qty
+#: model:ir.module.module,summary:base.module_website_sale_min_qty
+msgid ""
+"Sell by the box, the pallet or the quarter kilo: minimum order quantities "
+"and purchase steps on products and categories, enforced on the product page,"
+" in the cart and before checkout."
+msgstr ""
+"Venda por caja, por palé o por cuarto de kilo: cantidades mínimas de pedido "
+"y múltiplos de compra en productos y categorías, aplicados en la página del "
+"producto, en el carrito y antes de pagar."
+
+#. module: website_sale_min_qty
+#: model:ir.model.fields,help:website_sale_min_qty.field_website__min_qty_message
+msgid ""
+"Sentence shown under the quantity input when a product has a minimum or a "
+"step. Leave empty for the default wording. {min} and {step} are replaced "
+"with the product's numbers."
+msgstr ""
+"Frase que se muestra bajo el campo de cantidad cuando un producto tiene una "
+"cantidad mínima o un múltiplo. Déjela vacía para usar el texto "
+"predeterminado. {min} y {step} se sustituyen por los números del producto."
+
+#. module: website_sale_min_qty
+#: model:ir.model.fields,help:website_sale_min_qty.field_product_public_category__min_order_qty
+msgid ""
+"Smallest quantity a customer may order from a product in this category. 0 "
+"lets the parent category decide; a product with its own minimum always wins "
+"over the category."
+msgstr ""
+"Cantidad más pequeña que un cliente puede pedir de un producto de esta "
+"categoría. 0 deja decidir a la categoría superior; un producto con su propia "
+"cantidad mínima siempre prevalece sobre la categoría."
+
+#. module: website_sale_min_qty
+#: model:ir.model.fields,help:website_sale_min_qty.field_product_template__min_order_qty
+msgid ""
+"Smallest quantity a customer may order on the website. 0 inherits the value "
+"of the product's public category (and of its parents); 0 everywhere means no"
+" minimum."
+msgstr ""
+"Cantidad más pequeña que un cliente puede pedir en el sitio web. 0 hereda el "
+"valor de la categoría pública del producto (y de sus categorías superiores); "
+"0 en todos los niveles significa que no hay mínimo."
+
+#. module: website_sale_min_qty
+#: model:ir.model,name:website_sale_min_qty.model_website
+msgid "Website"
+msgstr "Sitio web"
+
+#. module: website_sale_min_qty
+#: model_terms:ir.ui.view,arch_db:website_sale_min_qty.product_template_form_view_min_qty
+msgid "Website Ordering Rules"
+msgstr "Reglas de pedido del sitio web"
+
+#. module: website_sale_min_qty
+#: model:ir.model,name:website_sale_min_qty.model_product_public_category
+msgid "Website Product Category"
+msgstr "Categoría pública de producto"
+
+#. module: website_sale_min_qty
+#: model:ir.model.fields,help:website_sale_min_qty.field_product_template__qty_step
+msgid ""
+"Website quantities are sold in multiples of this number, and anything in "
+"between is rounded up to the next multiple. 0 inherits the category and, "
+"failing that, leaves the quantity free."
+msgstr ""
+"Las cantidades del sitio web se venden en múltiplos de este número y "
+"cualquier cantidad intermedia se redondea al siguiente múltiplo. 0 hereda la "
+"categoría y, si no la hay, deja la cantidad libre."
+
+#. module: website_sale_min_qty
+#: model_terms:ir.ui.view,arch_db:website_sale_min_qty.view_website_form_min_qty
+msgid "e.g. Sold in full boxes, minimum {min}."
+msgstr "p. ej. Se vende por cajas completas, mínimo {min}."
