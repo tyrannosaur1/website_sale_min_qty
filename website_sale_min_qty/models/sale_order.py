@@ -90,9 +90,7 @@ class SaleOrder(models.Model):
         """Refuse the checkout while a line is below its rule.
 
         Checked before the core's own conditions (a delivery method, an empty
-        cart) so the customer reads the reason that is actually theirs, and
-        because those conditions differ from one series to the next while this
-        one does not.
+        cart) so the customer reads the reason that is actually theirs.
         """
         violated = self._min_qty_violated_lines()
         if violated:
@@ -100,94 +98,42 @@ class SaleOrder(models.Model):
         return super()._check_cart_is_ready_to_be_paid()
 
     # ------------------------------------------------------------------
-    # The single choke point every cart mutation goes through
+    # Cart mutation
     # ------------------------------------------------------------------
-    def _min_qty_option_ids(self, order_line):
-        """The option lines of *order_line*, under either of the two names.
+    def _cart_update_line_quantity(self, line_id, quantity, **kwargs):
+        """Apply the product's rule to the *new total* of a line.
 
-        ``option_line_ids`` was renamed ``linked_line_ids`` in 18.0; the field
-        is looked up rather than assumed so one release does not have to keep
-        a copy of this method.
+        This is the method both the cart page and ``_cart_add`` go through
+        once the line exists, so it is where a typed quantity becomes an
+        allowed one. The warning is attached to the returned values, which is
+        what the shop front-end shows as a toast.
         """
-        for name in ("option_line_ids", "linked_line_ids"):
-            if name in order_line._fields:
-                return list(set(order_line[name].filtered(
-                    lambda line: line.order_id == order_line.order_id).ids))
-        return []
+        line = self.order_line.filtered(lambda sol: sol.id == line_id)[:1]
+        product = line.product_id
+        if not product or quantity <= 0 or not product._min_qty_has_rules():
+            # A removal (or a line this module cannot place) is handed over
+            # untouched: the minimum applies to what is bought, not to what
+            # is deleted.
+            return super()._cart_update_line_quantity(line_id, quantity, **kwargs)
+        target, changed = product._min_qty_snap(quantity)
+        values = super()._cart_update_line_quantity(line_id, target, **kwargs)
+        if changed:
+            values["warning"] = self._min_qty_warning(product, quantity, target)
+        return values
 
-    def _cart_update(self, product_id, line_id=None, add_qty=0, set_qty=0, **kwargs):
-        """Apply the product's minimum and step before the line is written.
+    def _cart_add(self, product_id, quantity=1.0, **kwargs):
+        """Make the quantity being added an allowed one before the core sees it.
 
-        16.0 to 18.0 cast the requested quantity to ``int`` before computing
-        the new line quantity, which is exactly what a 0.25 kg step cannot
-        survive. The request is therefore resolved to a quantity here, on the
-        float, and integral results are handed back to the core method so its
-        stock checks, zero-price guard and delivery recalculation keep running
-        unchanged. Only a genuinely fractional result -- the case the core
-        cannot represent -- writes the line itself.
+        The core's own add path creates the line without passing through
+        ``_cart_update_line_quantity``, so the request has to be snapped here
+        too; the total is snapped again once the line exists, which is
+        harmless because a sum of grid multiples is itself a multiple.
         """
         product = self.env["product.product"].browse(int(product_id or 0)).exists()
-        if not product:
-            return super()._cart_update(product_id, line_id=line_id,
-                                        add_qty=add_qty, set_qty=set_qty, **kwargs)
-        minimum, step = product._min_qty_rules()
-        if minimum <= 0 and step <= 0:
-            # Nothing configured: the request is not touched at all, which is
-            # the promise this module makes to shops that never use it.
-            return super()._cart_update(product_id, line_id=line_id,
-                                        add_qty=add_qty, set_qty=set_qty, **kwargs)
-
-        # "Add nothing" is not an order: the core reads it as a removal
-        # (``add_qty`` None) or as a no-op (0), and both meanings survive only
-        # if the request is handed over exactly as it came in.
-        if not set_qty and not add_qty:
-            return super()._cart_update(product_id, line_id=line_id,
-                                        add_qty=add_qty, set_qty=set_qty, **kwargs)
-
-        if line_id is not False:
-            order_line = self._cart_find_product_line(product_id, line_id, **kwargs)[:1]
-        else:
-            order_line = self.env["sale.order.line"]
-
-        try:
-            add_qty = float(add_qty or 0.0)
-        except (TypeError, ValueError):
-            add_qty = 1.0
-        try:
-            set_qty = float(set_qty or 0.0)
-        except (TypeError, ValueError):
-            set_qty = 0.0
-
-        if set_qty:
-            requested = set_qty
-        elif order_line:
-            requested = order_line.product_uom_qty + add_qty
-        else:
-            requested = add_qty
-
-        if requested <= 0:
-            # Removing a line (or a no-op) is never an order: the minimum must
-            # not turn "delete this" into "buy five".
-            return super()._cart_update(product_id, line_id=line_id,
-                                        add_qty=add_qty, set_qty=set_qty, **kwargs)
-
-        target, changed = product._min_qty_snap(requested)
-        warning = (self._min_qty_warning(product, requested, target)
-                   if changed else "")
-
-        if target == int(target):
-            result = super()._cart_update(product_id, line_id=line_id,
-                                          add_qty=0, set_qty=int(target), **kwargs)
-            if warning:
-                result["warning"] = warning
-            return result
-
-        quantity, stock_warning = self._verify_updated_quantity(
-            order_line, product_id, target, **kwargs)
-        order_line = self._cart_update_order_line(product_id, quantity, order_line, **kwargs)
-        return {
-            "line_id": order_line.id,
-            "quantity": quantity,
-            "option_ids": self._min_qty_option_ids(order_line),
-            "warning": warning or stock_warning,
-        }
+        if not product or quantity <= 0 or not product._min_qty_has_rules():
+            return super()._cart_add(product_id, quantity, **kwargs)
+        target, changed = product._min_qty_snap(quantity)
+        values = super()._cart_add(product_id, target, **kwargs)
+        if changed:
+            values["warning"] = self._min_qty_warning(product, quantity, target)
+        return values
