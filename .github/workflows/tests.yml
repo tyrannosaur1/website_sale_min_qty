@@ -20,7 +20,8 @@ jobs:
 
       - name: Start PostgreSQL
         run: |
-          docker run -d --name db \
+          docker network create ci
+          docker run -d --name db --network ci \
             -e POSTGRES_USER=odoo -e POSTGRES_PASSWORD=odoo -e POSTGRES_DB=postgres \
             postgres:15
           for i in $(seq 1 30); do
@@ -32,10 +33,11 @@ jobs:
         run: |
           set -o pipefail
           MODULE=$(basename "$GITHUB_WORKSPACE")
-          docker run --rm --network host \
+          docker run --rm \
+            --network ci \
             -v "$GITHUB_WORKSPACE:/mnt/extra-addons" \
             --entrypoint /usr/bin/odoo "odoo:${{ matrix.odoo }}" \
-            --db_host=127.0.0.1 --db_port=5432 --db_user=odoo --db_password=odoo \
+            --db_host=db --db_port=5432 --db_user=odoo --db_password=odoo \
             --addons-path=/mnt/extra-addons,/usr/lib/python3/dist-packages/odoo/addons \
             --without-demo=all --stop-after-init \
             -d "test_${MODULE}" -i "$MODULE" --test-enable --test-tags "/$MODULE" 2>&1 \
