@@ -1,0 +1,184 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* website_sale_min_qty
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0-20261015\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-28 08:59+0000\n"
+"PO-Revision-Date: 2026-10-28 08:59+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#. module: website_sale_min_qty
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_product_product__display_name
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_product_public_category__display_name
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_product_template__display_name
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_sale_order__display_name
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_website__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: website_sale_min_qty
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_product_product__id
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_product_public_category__id
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_product_template__id
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_sale_order__id
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_website__id
+msgid "ID"
+msgstr ""
+
+#. module: website_sale_min_qty
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_product_product__min_order_qty
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_product_public_category__min_order_qty
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_product_template__min_order_qty
+msgid "Minimum Order Quantity"
+msgstr "Quantità minima d'ordine"
+
+#. module: website_sale_min_qty
+#: model:ir.module.module,shortdesc:base.module_website_sale_min_qty
+msgid "Minimum Order Quantity & Purchase Steps"
+msgstr "Quantità minima d'ordine e passi d'acquisto"
+
+#. module: website_sale_min_qty
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_website__min_qty_message
+msgid "Minimum Quantity Message"
+msgstr "Messaggio quantità minima"
+
+#. module: website_sale_min_qty
+#: model_terms:ir.ui.view,arch_db:website_sale_min_qty.view_website_form_min_qty
+msgid "Ordering Rules"
+msgstr "Regole di ordinazione"
+
+#. module: website_sale_min_qty
+#: model:ir.model.fields,help:website_sale_min_qty.field_product_product__min_order_qty
+msgid ""
+"Overrides the product's minimum for this variant only. 0 uses the product's "
+"value, which itself falls back to the category."
+msgstr ""
+"Sostituisce il minimo del prodotto solo per questa variante. 0 utilizza il "
+"valore del prodotto, che a sua volta eredita quello della categoria."
+
+#. module: website_sale_min_qty
+#: model:ir.model.fields,help:website_sale_min_qty.field_product_product__qty_step
+msgid ""
+"Overrides the product's quantity step for this variant only. 0 uses the "
+"product's value, which itself falls back to the category."
+msgstr ""
+"Sostituisce il passo di quantità del prodotto solo per questa variante. 0 "
+"utilizza il valore del prodotto, che a sua volta eredita quello della "
+"categoria."
+
+#. module: website_sale_min_qty
+#: model:ir.model,name:website_sale_min_qty.model_product_template
+msgid "Product"
+msgstr "Prodotto"
+
+#. module: website_sale_min_qty
+#: model:ir.model,name:website_sale_min_qty.model_product_product
+msgid "Product Variant"
+msgstr "Variante del prodotto"
+
+#. module: website_sale_min_qty
+#: model:ir.model.fields,help:website_sale_min_qty.field_product_public_category__qty_step
+msgid ""
+"Quantities are sold in multiples of this number. 0 lets the parent category "
+"decide and, if no category sets one, means the quantity is free."
+msgstr ""
+"Le quantità vengono vendute in multipli di questo numero. 0 lascia decidere "
+"la categoria padre e, se nessuna categoria ne imposta uno, significa che la "
+"quantità è libera."
+
+#. module: website_sale_min_qty
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_product_product__qty_step
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_product_public_category__qty_step
+#: model:ir.model.fields,field_description:website_sale_min_qty.field_product_template__qty_step
+msgid "Quantity Step"
+msgstr "Passo di quantità"
+
+#. module: website_sale_min_qty
+#: model:ir.model,name:website_sale_min_qty.model_sale_order
+msgid "Sales Order"
+msgstr "Ordine di vendita"
+
+#. module: website_sale_min_qty
+#: model:ir.module.module,summary:base.module_website_sale_min_qty
+msgid ""
+"Sell by the box, the pallet or the quarter kilo: minimum order quantities "
+"and purchase steps on products and categories, enforced on the product page,"
+" in the cart and before checkout."
+msgstr ""
+"Vendi a scatole, a pallet o a quarti di chilo: quantità minime d'ordine e "
+"passi d'acquisto su prodotti e categorie, applicati nella pagina del "
+"prodotto, nel carrello e prima del pagamento."
+
+#. module: website_sale_min_qty
+#: model:ir.model.fields,help:website_sale_min_qty.field_website__min_qty_message
+msgid ""
+"Sentence shown under the quantity input when a product has a minimum or a "
+"step. Leave empty for the default wording. {min} and {step} are replaced "
+"with the product's numbers."
+msgstr ""
+"Frase mostrata sotto il campo quantità quando un prodotto ha un minimo o un "
+"passo. Lasciare vuoto per il testo predefinito. {min} e {step} vengono "
+"sostituiti con i numeri del prodotto."
+
+#. module: website_sale_min_qty
+#: model:ir.model.fields,help:website_sale_min_qty.field_product_public_category__min_order_qty
+msgid ""
+"Smallest quantity a customer may order from a product in this category. 0 "
+"lets the parent category decide; a product with its own minimum always wins "
+"over the category."
+msgstr ""
+"Quantità più piccola che un cliente può ordinare per un prodotto di questa "
+"categoria. 0 lascia decidere la categoria padre; un prodotto con un proprio "
+"minimo ha sempre la precedenza sulla categoria."
+
+#. module: website_sale_min_qty
+#: model:ir.model.fields,help:website_sale_min_qty.field_product_template__min_order_qty
+msgid ""
+"Smallest quantity a customer may order on the website. 0 inherits the value "
+"of the product's public category (and of its parents); 0 everywhere means no"
+" minimum."
+msgstr ""
+"Quantità più piccola che un cliente può ordinare sul sito web. 0 eredita il "
+"valore della categoria pubblica del prodotto (e delle sue categorie padre); "
+"0 ovunque significa nessun minimo."
+
+#. module: website_sale_min_qty
+#: model:ir.model,name:website_sale_min_qty.model_website
+msgid "Website"
+msgstr "Sito web"
+
+#. module: website_sale_min_qty
+#: model_terms:ir.ui.view,arch_db:website_sale_min_qty.product_template_form_view_min_qty
+msgid "Website Ordering Rules"
+msgstr "Regole di ordinazione del sito web"
+
+#. module: website_sale_min_qty
+#: model:ir.model,name:website_sale_min_qty.model_product_public_category
+msgid "Website Product Category"
+msgstr "Categoria prodotto del sito web"
+
+#. module: website_sale_min_qty
+#: model:ir.model.fields,help:website_sale_min_qty.field_product_template__qty_step
+msgid ""
+"Website quantities are sold in multiples of this number, and anything in "
+"between is rounded up to the next multiple. 0 inherits the category and, "
+"failing that, leaves the quantity free."
+msgstr ""
+"Le quantità sul sito web vengono vendute in multipli di questo numero e "
+"tutto ciò che sta nel mezzo viene arrotondato per eccesso al multiplo "
+"successivo. 0 eredita la categoria e, in mancanza, lascia la quantità "
+"libera."
+
+#. module: website_sale_min_qty
+#: model_terms:ir.ui.view,arch_db:website_sale_min_qty.view_website_form_min_qty
+msgid "e.g. Sold in full boxes, minimum {min}."
+msgstr "es. Venduto in scatole complete, minimo {min}."
