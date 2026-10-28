@@ -202,6 +202,7 @@ def web_values(product):
         "min_qty_min": round(minimum or 1.0, digits),
         "min_qty_step": round(step or 1.0, digits),
         "min_qty_default": default,
+        "min_qty_default_text": format_quantity(default),
         "min_qty_note": website._min_qty_note(minimum, step) if website else "",
         "min_qty_min_text": format_quantity(minimum),
         "min_qty_step_text": format_quantity(step),
