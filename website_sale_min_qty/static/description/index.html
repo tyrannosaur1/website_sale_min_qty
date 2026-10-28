@@ -1,0 +1,48 @@
+<div style="max-width:880px;margin:0 auto;padding:8px 4px 24px;color:#2b2b2b;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;line-height:1.65">
+<div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#017E84;font-weight:600">Odoo &#183; Website / eCommerce</div>
+<div style="font-size:38px;line-height:1.2;margin:10px 0 14px;font-weight:700">Minimum Order Quantity &amp; Purchase Steps</div>
+<div style="font-size:18px;color:#6b6b6b;margin:0 0 20px;max-width:660px">Sell by the box, the pallet or the quarter kilo. A customer who types one unit of a product that ships in boxes of six is a support ticket; the shop should not accept the order in the first place.</div>
+<div style="margin:0 0 4px"><span style="display:inline-block;font-size:12.5px;padding:5px 12px;border-radius:999px;background:#faf7f8;border:1px solid #e7e3e5;color:#524a4f;margin:0 8px 8px 0;white-space:nowrap">website_sale only</span><span style="display:inline-block;font-size:12.5px;padding:5px 12px;border-radius:999px;background:#faf7f8;border:1px solid #e7e3e5;color:#524a4f;margin:0 8px 8px 0;white-space:nowrap">Product &#183; category &#183; variant</span><span style="display:inline-block;font-size:12.5px;padding:5px 12px;border-radius:999px;background:#faf7f8;border:1px solid #e7e3e5;color:#524a4f;margin:0 8px 8px 0;white-space:nowrap">OPL-1</span></div>
+
+<div style="display:flex;flex-wrap:wrap;gap:16px;margin:36px 0 8px">
+<div style="flex:1 1 220px;min-width:200px;border:1px solid #e7e3e5;border-radius:10px;padding:20px;background:#fff"><div style="font-size:15px;font-weight:600;margin:0 0 6px">A minimum, a step, or both</div><div style="font-size:13.5px;color:#6b6b6b">"At least six" and "in sixes" are different rules. Set one, the other, or the two together, per product or per category.</div></div>
+<div style="flex:1 1 220px;min-width:200px;border:1px solid #e7e3e5;border-radius:10px;padding:20px;background:#fff"><div style="font-size:15px;font-weight:600;margin:0 0 6px">Enforced on the server</div><div style="font-size:13.5px;color:#6b6b6b">The product page, the cart and the checkout all read the same rule. Editing the HTML, or posting the form by hand, changes nothing.</div></div>
+<div style="flex:1 1 220px;min-width:200px;border:1px solid #e7e3e5;border-radius:10px;padding:20px;background:#fff"><div style="font-size:15px;font-weight:600;margin:0 0 6px">Decimal steps that stay decimal</div><div style="font-size:13.5px;color:#6b6b6b">0.25 kg three times is 0.75 kg in the cart and in the database, not 0.7500000000000001.</div></div>
+</div>
+
+<div style="font-size:22px;font-weight:700;margin:52px 0 4px">How a rule is written</div>
+<div style="font-size:14px;color:#3f3f3f;margin-top:10px">Two numbers, on the product form under <em>Sales &#8250; Website Ordering Rules</em>:</div>
+<table style="width:100%;border-collapse:collapse;font-size:14px;margin-top:10px"><tbody>
+<tr><td style="padding:10px 12px;border-bottom:1px solid #e7e3e5;background:#faf7f8;font-weight:600;color:#524a4f;width:34%">Minimum Order Quantity</td><td style="padding:10px 12px;border-bottom:1px solid #e7e3e5">The smallest quantity a customer may put in the cart. <strong>0</strong> means "no minimum here" and passes the question to the product's public category.</td></tr>
+<tr><td style="padding:10px 12px;border-bottom:1px solid #e7e3e5;background:#faf7f8;font-weight:600;color:#524a4f;width:34%">Quantity Step</td><td style="padding:10px 12px;border-bottom:1px solid #e7e3e5">Quantities are sold in multiples of this number; anything in between is rounded <strong>up</strong> to the next multiple. <strong>0</strong> means no grid, and inherits the category's step first.</td></tr>
+</tbody></table>
+<div style="font-size:14px;color:#3f3f3f;margin-top:14px">The same two fields exist on <em>Website &#8250; Configuration &#8250; Product Categories</em>, and on each variant. Precedence is the same everywhere: the variant's own value, then the product's, then the category's, then the category's parents.</div>
+
+<div style="font-size:22px;font-weight:700;margin:52px 0 4px">What the customer sees</div>
+<div style="display:flex;flex-wrap:wrap;gap:0 28px;margin-top:6px">
+<div style="flex:1 1 300px;min-width:260px;font-size:14px;padding:8px 0"><span style="color:#017E84;font-weight:700;margin-right:9px">&#10003;</span>The quantity input starts at the smallest allowed quantity and steps by the step, so the minus button never offers a number the shop will refuse</div>
+<div style="flex:1 1 300px;min-width:260px;font-size:14px;padding:8px 0"><span style="color:#017E84;font-weight:700;margin-right:9px">&#10003;</span>A sentence under the input states the rule ("Minimum order: 6, sold in multiples of 2"), or the site's own wording, per website and translatable</div>
+<div style="flex:1 1 300px;min-width:260px;font-size:14px;padding:8px 0"><span style="color:#017E84;font-weight:700;margin-right:9px">&#10003;</span>A quantity typed below the minimum, or between two steps, is raised and the customer is told what was ordered instead</div>
+<div style="flex:1 1 300px;min-width:260px;font-size:14px;padding:8px 0"><span style="color:#017E84;font-weight:700;margin-right:9px">&#10003;</span>Editing the quantity in the cart follows the same rule, once per line</div>
+<div style="flex:1 1 300px;min-width:260px;font-size:14px;padding:8px 0"><span style="color:#017E84;font-weight:700;margin-right:9px">&#10003;</span>The checkout refuses a cart that still holds a line below the rule, instead of taking money for an order that cannot be picked</div>
+<div style="flex:1 1 300px;min-width:260px;font-size:14px;padding:8px 0"><span style="color:#017E84;font-weight:700;margin-right:9px">&#10003;</span>Removing a line is always allowed: the minimum applies to what is bought, not to what is deleted</div>
+</div>
+
+<div style="font-size:22px;font-weight:700;margin:48px 0 4px">The edges, stated plainly</div>
+<table style="width:100%;border-collapse:collapse;font-size:14px;margin-top:10px"><tbody>
+<tr><td style="padding:10px 12px;border-bottom:1px solid #e7e3e5;background:#faf7f8;font-weight:600;color:#524a4f;width:34%">Rounding direction</td><td style="padding:10px 12px;border-bottom:1px solid #e7e3e5">Always up. A step is a packaging constraint, so 0.3 kg of a product sold in quarters is 0.5 kg; it is never silently reduced to 0.25.</td></tr>
+<tr><td style="padding:10px 12px;border-bottom:1px solid #e7e3e5;background:#faf7f8;font-weight:600;color:#524a4f;width:34%">Decimal steps</td><td style="padding:10px 12px;border-bottom:1px solid #e7e3e5">The result is rounded on the step's grid and then spelled at the product's unit-of-measure precision, so no floating-point noise reaches the cart or the database. The grid is the step, never "two decimals".</td></tr>
+<tr><td style="padding:10px 12px;border-bottom:1px solid #e7e3e5;background:#faf7f8;font-weight:600;color:#524a4f;width:34%">A rule changed later</td><td style="padding:10px 12px;border-bottom:1px solid #e7e3e5">Carts that already hold a line are not rewritten: the customer keeps the quantity and the price they saw. The line is flagged, the checkout waits, and the next quantity change follows the new rule.</td></tr>
+<tr><td style="padding:10px 12px;border-bottom:1px solid #e7e3e5;background:#faf7f8;font-weight:600;color:#524a4f;width:34%">Zero everywhere</td><td style="padding:10px 12px;border-bottom:1px solid #e7e3e5">A shop that sets no rule gets no change at all -- no rounding, no message, no extra query against the cart.</td></tr>
+<tr><td style="padding:10px 12px;border-bottom:1px solid #e7e3e5;background:#faf7f8;font-weight:600;color:#524a4f;width:34%">Backend orders</td><td style="padding:10px 12px;border-bottom:1px solid #e7e3e5">The rules apply to the website. A quotation written in the backend is left to the salesperson.</td></tr>
+</tbody></table>
+
+<div style="font-size:22px;font-weight:700;margin:48px 0 4px">Technical details</div>
+<table style="width:100%;border-collapse:collapse;font-size:14px"><tbody>
+<tr><td style="padding:10px 12px;border-bottom:1px solid #e7e3e5;background:#faf7f8;font-weight:600;color:#524a4f;width:34%">Depends on</td><td style="padding:10px 12px;border-bottom:1px solid #e7e3e5">website_sale</td></tr>
+<tr><td style="padding:10px 12px;border-bottom:1px solid #e7e3e5;background:#faf7f8;font-weight:600;color:#524a4f;width:34%">License</td><td style="padding:10px 12px;border-bottom:1px solid #e7e3e5">OPL-1</td></tr>
+<tr><td style="padding:10px 12px;border-bottom:1px solid #e7e3e5;background:#faf7f8;font-weight:600;color:#524a4f;width:34%">Configure</td><td style="padding:10px 12px;border-bottom:1px solid #e7e3e5">Product form &#8250; Sales &#8250; Website Ordering Rules; or Website &#8250; Configuration &#8250; Product Categories; the site-wide sentence is in Website &#8250; Configuration &#8250; Settings &#8250; Ordering Rules</td></tr>
+<tr><td style="padding:10px 12px;border-bottom:1px solid #e7e3e5;background:#faf7f8;font-weight:600;color:#524a4f;width:34%">Install</td><td style="padding:10px 12px;border-bottom:1px solid #e7e3e5">Apps &#8594; Update Apps List &#8594; search &#8220;Minimum Order Quantity&#8221; &#8594; Install</td></tr>
+</tbody></table>
+<div style="border-top:1px solid #e7e3e5;margin-top:44px;padding-top:14px;font-size:12.5px;color:#8a8189">website_sale_min_qty &#183; ModForge</div>
+</div>

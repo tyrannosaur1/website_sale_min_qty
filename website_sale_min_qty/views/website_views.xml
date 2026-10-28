@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- The sentence, not the numbers: the numbers are per product, the way
+         the shop speaks to its customers is per site.
+         The anchor is the notebook itself: 16.0's only page there is the
+         "Custom Code" one without a `name` (it gets `page_custom_code` in
+         17.0), and that page is restricted to debug mode, so anchoring on it
+         by name would both break 16.0 and hide this page from merchants. -->
+    <record id="view_website_form_min_qty" model="ir.ui.view">
+        <field name="name">website.form.min.qty</field>
+        <field name="model">website</field>
+        <field name="inherit_id" ref="website.view_website_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Ordering Rules" name="page_min_qty">
+                    <group>
+                        <field name="min_qty_message"
+                               placeholder="e.g. Sold in full boxes, minimum {min}."/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Product page: the quantity input carries the grid the server enforces,
+         and the sentence underneath says it in words. `data-min` and `step` are
+         the attributes the shop's own quantity widget reads, so the minus
+         button stops where the minimum starts instead of letting the visitor
+         type a number the server will silently move.
+         The wrapper is matched on `t-attf-class`: the class of that div is
+         built by the template, so there is no static `class` attribute to
+         match on in any series from 16.0 to 20.0. -->
+    <template id="product_quantity_min_qty" inherit_id="website_sale.product_quantity"
+              name="Minimum Order Quantity">
+        <xpath expr="//input[@name='add_qty']" position="attributes">
+            <attribute name="data-min" remove="true"/>
+            <attribute name="t-att-data-min">combination_info.get('min_qty_min') or 1</attribute>
+            <attribute name="t-att-step">combination_info.get('min_qty_step') or 1</attribute>
+            <attribute name="t-att-value">combination_info.get('min_qty_default') or 1</attribute>
+            <attribute name="inputmode">decimal</attribute>
+        </xpath>
+        <xpath expr="//div[contains(@t-attf-class, 'css_quantity')]" position="after">
+            <div t-if="combination_info.get('min_qty_note')"
+                 class="o_ws_min_qty_note small text-muted mb-2" role="note">
+                <i class="fa fa-info-circle me-1" aria-hidden="true"/>
+                <span t-out="combination_info['min_qty_note']"/>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>

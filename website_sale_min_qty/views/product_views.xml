@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Product form: the two numbers a merchant sets per product. They sit on
+         the Sales page next to the other sellable-on-the-web settings, and the
+         same inherited arch is reused by the variant form (which is a primary
+         inherited view of this one), so a single variant can deviate. -->
+    <record id="product_template_form_view_min_qty" model="ir.ui.view">
+        <field name="name">product.template.form.min.qty</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='sales']" position="inside">
+                <group name="min_qty" string="Website Ordering Rules">
+                    <group>
+                        <field name="min_order_qty"/>
+                        <field name="qty_step"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Public category: products with 0 inherit these, nearest category
+         first, then its parents. -->
+    <record id="product_public_category_form_view_min_qty" model="ir.ui.view">
+        <field name="name">product.public.category.form.min.qty</field>
+        <field name="model">product.public.category</field>
+        <field name="inherit_id" ref="website_sale.product_public_category_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='parent_id']" position="after">
+                <field name="min_order_qty"/>
+                <field name="qty_step"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
