@@ -8,7 +8,6 @@ guard is called the way the payment route calls it.
 """
 from lxml import html as lxml_html
 
-from odoo.exceptions import ValidationError
 from odoo.tests.common import HttpCase
 
 
@@ -77,21 +76,15 @@ class ShopPageCase(HttpCase):
         })
 
     def test_checkout_is_refused_while_a_line_is_below_the_minimum(self):
+        """20.0 answers with a blocking alert instead of an exception."""
         order = self._cart(1)
-        with self.assertRaises(ValidationError) as caught:
-            order._check_cart_is_ready_to_be_paid()
-        self.assertIn("Bulk Nuts", str(caught.exception))
-        self.assertIn("at least 2", str(caught.exception))
+        self.assertFalse(order._is_cart_ready_for_checkout())
+        self.assertTrue(order._has_blocking_alerts())
+        self.assertIn("Bulk Nuts", order._join_alert_messages())
+        self.assertIn("at least 2", order._join_alert_messages())
 
     def test_checkout_is_not_refused_by_this_module_when_the_cart_is_valid(self):
-        """Positive control: the guard stays quiet on a cart that obeys the rule.
-
-        The core check that follows may still refuse the cart for its own
-        reasons (no delivery method here), so the assertion is on *this*
-        module's message rather than on the exception.
-        """
+        """Positive control: no alert is raised on a cart that obeys the rule."""
         order = self._cart(2)
-        try:
-            order._check_cart_is_ready_to_be_paid()
-        except ValidationError as error:
-            self.assertNotIn("Bulk Nuts", str(error))
+        order._is_cart_ready_for_checkout()
+        self.assertFalse(order._has_blocking_alerts())

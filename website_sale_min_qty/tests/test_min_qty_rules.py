@@ -155,5 +155,7 @@ class TestRuleResolution(TransactionCase):
         self.assertEqual(product.min_order_qty, 6.0)
 
     def test_the_uom_rounding_is_the_one_the_product_uses(self):
+        """20.0 reads that precision from the "Product Unit" setting."""
         product = self._product()
-        self.assertEqual(product._min_qty_rounding(), product.uom_id.rounding)
+        precision = self.env["decimal.precision"].precision_get("Product Unit")
+        self.assertAlmostEqual(product._min_qty_rounding(), 10.0 ** -precision)

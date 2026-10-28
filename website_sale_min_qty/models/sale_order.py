@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from odoo import models
-from odoo.exceptions import ValidationError
 from odoo.tools import float_compare
 
 from .min_qty import format_quantity, is_on_grid, translate
@@ -84,18 +83,24 @@ class SaleOrder(models.Model):
                                    for line in lines)}
 
     # ------------------------------------------------------------------
-    # Hook used by the payment page
+    # Hook used by the checkout steps
     # ------------------------------------------------------------------
-    def _check_cart_is_ready_to_be_paid(self):
-        """Refuse the checkout while a line is below its rule.
+    def _is_cart_ready_for_checkout(self):
+        """Block the next checkout step while a line is below its rule.
 
-        Checked before the core's own conditions (a delivery method, an empty
-        cart) so the customer reads the reason that is actually theirs.
+        20.0 replaced the "raise from the payment page" of the older series
+        with a boolean and a list of alerts the cart page renders itself, so
+        the message is attached to the order instead of thrown: the customer
+        sees which product is wrong next to the cart, not an error page.
+
+        Checked before the core's own conditions so the reason shown is the
+        one this module is responsible for.
         """
         violated = self._min_qty_violated_lines()
         if violated:
-            raise ValidationError(self._min_qty_checkout_message(violated))
-        return super()._check_cart_is_ready_to_be_paid()
+            self._add_blocking_alert(self._min_qty_checkout_message(violated))
+            return False
+        return super()._is_cart_ready_for_checkout()
 
     # ------------------------------------------------------------------
     # Cart mutation
