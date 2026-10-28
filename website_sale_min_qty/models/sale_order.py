@@ -100,6 +100,23 @@ class SaleOrder(models.Model):
     # ------------------------------------------------------------------
     # Cart mutation
     # ------------------------------------------------------------------
+    def _min_qty_typed_quantity(self, product_id, quantity, kwargs):
+        """The quantity the customer typed, before a route cast it to an int.
+
+        Both cart routes of 19.0 and 20.0 convert the quantity to ``int``
+        before they call the model ("Do not allow float values in ecommerce by
+        default"), so a 0.25 kg step reaches this module as a whole number and
+        the request is already lost. The routes therefore report the typed
+        value under ``_min_qty_requested``, and it is read back here: at the
+        one place every entry point has to pass through, including the combo
+        item and optional product lines the core adds itself from the same
+        request. A product that is not in the map -- a combo item, say -- keeps
+        the quantity it was called with.
+        """
+        hints = kwargs.pop("_min_qty_requested", None) or {}
+        typed = hints.get(product_id)
+        return quantity if typed is None else typed
+
     def _cart_update_line_quantity(self, line_id, quantity, **kwargs):
         """Apply the product's rule to the *new total* of a line.
 
@@ -110,6 +127,8 @@ class SaleOrder(models.Model):
         """
         line = self.order_line.filtered(lambda sol: sol.id == line_id)[:1]
         product = line.product_id
+        quantity = self._min_qty_typed_quantity(
+            product.id if product else 0, quantity, kwargs)
         if not product or quantity <= 0 or not product._min_qty_has_rules():
             # A removal (or a line this module cannot place) is handed over
             # untouched: the minimum applies to what is bought, not to what
@@ -130,6 +149,8 @@ class SaleOrder(models.Model):
         harmless because a sum of grid multiples is itself a multiple.
         """
         product = self.env["product.product"].browse(int(product_id or 0)).exists()
+        quantity = self._min_qty_typed_quantity(
+            product.id if product else int(product_id or 0), quantity, kwargs)
         if not product or quantity <= 0 or not product._min_qty_has_rules():
             return super()._cart_add(product_id, quantity, **kwargs)
         target, changed = product._min_qty_snap(quantity)
